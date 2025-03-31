@@ -36,6 +36,11 @@ const getCategoryColor = (category: CardCategory): string => {
 };
 
 const ValidationCardView: React.FC<ValidationCardViewProps> = ({ card, showActions = false }) => {
+  // Add a null/undefined check to prevent the error
+  if (!card) {
+    return <div className="p-4 text-center">Card not available</div>;
+  }
+
   return (
     <Card className="w-full card-shadow hover:shadow-lg transition-shadow">
       <CardHeader>
@@ -52,7 +57,7 @@ const ValidationCardView: React.FC<ValidationCardViewProps> = ({ card, showActio
         <CardDescription className="mt-2">{card.description}</CardDescription>
       </CardHeader>
       <CardContent>
-        {card.imageUrls.length > 0 && (
+        {card.imageUrls && card.imageUrls.length > 0 && (
           <div className="grid grid-cols-1 gap-4 mb-4">
             {card.imageUrls.map((url, index) => (
               <img
@@ -82,7 +87,7 @@ const ValidationCardView: React.FC<ValidationCardViewProps> = ({ card, showActio
         <div className="flex items-center text-xs text-gray-600">
           <Users className="h-3 w-3 mr-1" />
           <span>
-            Audience: {card.audience.map(a => a.replace('-', ' ')).join(', ')}
+            Audience: {card.audience && card.audience.map(a => a.replace('-', ' ')).join(', ')}
           </span>
         </div>
       </CardFooter>
